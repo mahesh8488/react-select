@@ -35,7 +35,13 @@ export const createFilter = (config: ?Config) => (
     input = stripDiacritics(input);
     candidate = stripDiacritics(candidate);
   }
-  return matchFrom === 'start'
-    ? candidate.substr(0, input.length) === input
-    : candidate.indexOf(input) > -1;
+  let splitInputWords = input.split(" ").filter(t => trimString(t) !== "");
+  let matchingCount = 0;
+  for (let i = 0; i < splitInputWords.length; i++) {
+    if (candidate.substr(0, input.length) === splitInputWords[i]) {
+      matchingCount++;
+    }      
+  }
+
+  return matchingCount > 0;
 };
